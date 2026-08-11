@@ -1,15 +1,10 @@
-import React from 'react'
-import BookingHero from './components/BookingProcess'
-import BookingWizard from './components/BookingWizard'
+import BookingWizard from "@/app/Booking/components/booking/BookingWizard";
 
-const page = () => {
-  return (
-    <div>
-        <BookingHero/>
-        <BookingWizard/>
+export const metadata = {
+  title: "Book Event Catering | Interactive Catering Wizard",
+  description: "Customize your event catering menu, guest count, and instantly calculate billing.",
+};
 
-    </div>
-  )
+export default function BookingPage() {
+  return <BookingWizard />;
 }
-
-export default page

@@ -5,6 +5,11 @@ const errorHandler = (err, req, res, next) => {
     let message = "Internal Server Error";
     let errors = null;
 
+    if(err.name === 'AppError'){
+        statusCode = err.statusCode
+        message = err.message
+    }
+
     if (err.name === "ValidationError") {
         statusCode = 400;
         message = "Validation Failed";

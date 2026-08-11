@@ -30,3 +30,14 @@ export const contactSchema = z.object({
         .min(10, 'Message should have at least 10 characters')
         .max(1000, 'Message cannot exceed 1000 characters')
 })
+
+
+export const updateContactSchema = z.object({
+    status: z.enum([
+        "Pending",
+        "In Progress",
+        "Resolved"
+    ]).optional(),
+
+    isRead: z.boolean().optional()
+});

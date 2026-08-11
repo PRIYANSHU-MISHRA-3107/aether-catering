@@ -1,3 +1,5 @@
+// src/constants/menuData.js
+
 export const menuData = [
   {
     id: 1,
@@ -9,8 +11,8 @@ export const menuData = [
       {
         id: "s1",
         name: "Paneer Tikka",
-        slug: "paneer-tikkaa",
-        image: "/images/menu/starters/paneer-tikkaa.png",
+        slug: "paneer-tikka",
+        image: "/images/menu/starters/paneer-tikka.png",
         badge: "Chef's Choice",
         diet: "Veg",
         spiceLevel: 2,
@@ -96,8 +98,7 @@ export const menuData = [
         popular: false,
         rating: 4.8,
         description: "Fresh button mushrooms stuffed with spiced paneer and charred to perfection in the tandoor."
-      },
-     
+      }
     ]
   },
   {
@@ -105,13 +106,14 @@ export const menuData = [
     title: "Main Course",
     key: "mainCourseDishes",
     icon: "Utensils",
-    description: "Rich curries, gravies, freshly baked tandoori breads, and aromatic rice preparations.",
+    description: "Rich curries, fresh tandoori breads, and fragrant rice dishes.",
     dishes: [
-      /* Curries & Gravies */
+      // Gravies & Curries
       {
         id: "m1",
         name: "Butter Paneer",
         slug: "butter-paneer",
+        category: "Curry",
         image: "/images/menu/main/butter-paneer.png",
         badge: "Best Seller",
         diet: "Veg",
@@ -125,6 +127,7 @@ export const menuData = [
         id: "m2",
         name: "Dal Makhani",
         slug: "dal-makhani",
+        category: "Curry",
         image: "/images/menu/main/dal-makhani.png",
         badge: "Premium",
         diet: "Veg",
@@ -138,6 +141,7 @@ export const menuData = [
         id: "m3",
         name: "Kadai Paneer",
         slug: "kadai-paneer",
+        category: "Curry",
         image: "/images/menu/main/kadai-paneer.png",
         badge: "Spicy",
         diet: "Veg",
@@ -151,6 +155,7 @@ export const menuData = [
         id: "m4",
         name: "Malai Kofta",
         slug: "malai-kofta",
+        category: "Curry",
         image: "/images/menu/main/malai-kofta.png",
         badge: "Luxury Choice",
         diet: "Veg",
@@ -160,51 +165,12 @@ export const menuData = [
         rating: 4.9,
         description: "Melt-in-the-mouth paneer dumplings dunked inside a sweet, rich cashew cream sauce."
       },
-      {
-        id: "m5",
-        name: "Mix Veg",
-        slug: "mix-veg",
-        image: "/images/menu/main/mix-veg.png",
-        badge: "Healthy Choice",
-        diet: "Veg",
-        spiceLevel: 1,
-        featured: false,
-        popular: false,
-        rating: 4.6,
-        description: "A colorful melange of garden-fresh vegetables sautéed in an aromatic onion-tomato masala."
-      },
-      {
-        id: "m6",
-        name: "Palak Paneer",
-        slug: "palak-paneer",
-        image: "/images/menu/main/palak-paneer.png",
-        badge: "Traditional",
-        diet: "Veg",
-        spiceLevel: 1,
-        featured: false,
-        popular: false,
-        rating: 4.7,
-        description: "Smooth, spiced puréed spinach gravy enriched with soft paneer cubes and a touch of cream."
-      },
-      {
-        id: "m7",
-        name: "Mutter Mushroom",
-        slug: "mutter-mushroom",
-        image: "/images/menu/main/mutter-mushroom.png",
-        badge: "Classic",
-        diet: "Veg",
-        spiceLevel: 2,
-        featured: false,
-        popular: false,
-        rating: 4.6,
-        description: "Tender button mushrooms and green peas simmered in a savory, onion-tomato gravy."
-      },
-
-      /* Breads */
+      // Breads
       {
         id: "b1",
         name: "Butter Naan",
         slug: "butter-naan",
+        category: "Bread",
         image: "/images/menu/breads/butter-naan.png",
         badge: "Freshly Baked",
         diet: "Veg",
@@ -212,12 +178,13 @@ export const menuData = [
         featured: false,
         popular: true,
         rating: 4.8,
-        description: "Traditional leavened flatbread slapped on tandoor walls and generously glazed with real butter."
+        description: "Traditional leavened flatbread slapped on tandoor walls and glazed with butter."
       },
       {
         id: "b2",
         name: "Garlic Naan",
         slug: "garlic-naan",
+        category: "Bread",
         image: "/images/menu/breads/garlic-naan.png",
         badge: "Fan Favorite",
         diet: "Veg",
@@ -225,12 +192,13 @@ export const menuData = [
         featured: true,
         popular: true,
         rating: 4.9,
-        description: "Fluffy tandoori naan topped with aromatic minced garlic and freshly chopped cilantro."
+        description: "Fluffy tandoori naan topped with aromatic minced garlic and fresh cilantro."
       },
       {
         id: "b3",
         name: "Tandoori Roti",
         slug: "tandoori-roti",
+        category: "Bread",
         image: "/images/menu/breads/tandoori-roti.png",
         badge: "Whole Wheat",
         diet: "Veg",
@@ -238,12 +206,13 @@ export const menuData = [
         featured: false,
         popular: true,
         rating: 4.7,
-        description: "Rustic, wholesome whole-wheat flatbread baked cleanly over intense charcoal tandoor heat."
+        description: "Rustic, wholesome whole-wheat flatbread baked cleanly over charcoal tandoor heat."
       },
       {
         id: "b4",
         name: "Lachha Paratha",
         slug: "lachha-paratha",
+        category: "Bread",
         image: "/images/menu/breads/lachha-paratha.png",
         badge: "Flaky",
         diet: "Veg",
@@ -251,53 +220,14 @@ export const menuData = [
         featured: false,
         popular: true,
         rating: 4.8,
-        description: "Multi-layered crispy whole wheat flatbread brushed with ghee for rich texture."
+        description: "Multi-layered crispy whole wheat flatbread brushed with ghee."
       },
-      {
-        id: "b5",
-        name: "Stuffed Kulcha",
-        slug: "stuffed-kulcha",
-        image: "/images/menu/breads/stuffed-kulcha.png",
-        badge: "Hearty",
-        diet: "Veg",
-        spiceLevel: 1,
-        featured: false,
-        popular: false,
-        rating: 4.6,
-        description: "Soft leavened bread stuffed with spiced potatoes and onions, baked golden."
-      },
-      {
-        id: "b6",
-        name: "Missi Roti",
-        slug: "missi-roti",
-        image: "/images/menu/breads/missi-roti.png",
-        badge: "Traditional",
-        diet: "Veg",
-        spiceLevel: 1,
-        featured: false,
-        popular: false,
-        rating: 4.5,
-        description: "Savory flatbread crafted from a blend of gram flour and wheat flour spiked with spices."
-      },
-      {
-        id: "b7",
-        name: "Roomali Roti",
-        slug: "roomali-roti",
-        image: "/images/menu/breads/roomali-roti.png",
-        badge: "Paper Thin",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: false,
-        popular: false,
-        rating: 4.7,
-        description: "Extremely thin, soft handkerchief-style flatbread stretched and cooked on an inverted griddle."
-      },
-
-      /* Rice */
+      // Rice & Biryani
       {
         id: "r1",
         name: "Veg Biryani",
         slug: "veg-biryani",
+        category: "Rice",
         image: "/images/menu/rice/veg-biryani.png",
         badge: "Hyderabadi Style",
         diet: "Veg",
@@ -311,6 +241,7 @@ export const menuData = [
         id: "r2",
         name: "Jeera Rice",
         slug: "jeera-rice",
+        category: "Rice",
         image: "/images/menu/rice/jeera-rice.png",
         badge: "Classic",
         diet: "Veg",
@@ -324,6 +255,7 @@ export const menuData = [
         id: "r3",
         name: "Veg Pulao",
         slug: "veg-pulao",
+        category: "Rice",
         image: "/images/menu/rice/veg-pulao.png",
         badge: "Aromatic",
         diet: "Veg",
@@ -332,58 +264,6 @@ export const menuData = [
         popular: false,
         rating: 4.6,
         description: "Basmati rice cooked with whole spices, carrots, peas, beans, and fresh herbs."
-      },
-      {
-        id: "r4",
-        name: "Peas Pulao",
-        slug: "peas-pulao",
-        image: "/images/menu/rice/peas-pulao.png",
-        badge: "Mild",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: false,
-        popular: false,
-        rating: 4.5,
-        description: "Delicately spiced basmati rice tossed with sweet green peas and subtle whole aromatics."
-      },
-      {
-        id: "r5",
-        name: "Kashmiri Pulao",
-        slug: "kashmiri-pulao",
-        image: "/images/menu/rice/kashmiri-pulao.png",
-        badge: "Royal Special",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: true,
-        popular: true,
-        rating: 4.8,
-        description: "Sweet and savory basmati rice garnished with dry fruits, nuts, and fresh pomegranate."
-      },
-      {
-        id: "r6",
-        name: "Steamed Basmati Rice",
-        slug: "steamed-rice",
-        image: "/images/menu/rice/steamed-rice.png",
-        badge: "Simple",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: false,
-        popular: false,
-        rating: 4.6,
-        description: "Fluffy, long-grain basmati rice steamed clean, perfect to pair with curries."
-      },
-      {
-        id: "r7",
-        name: "Saffron Rice",
-        slug: "saffron-rice",
-        image: "/images/menu/rice/saffron-rice.png",
-        badge: "Premium",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: false,
-        popular: false,
-        rating: 4.7,
-        description: "Aromatically infused basmati rice scented with genuine Kashmiri saffron strands."
       }
     ]
   },
@@ -448,32 +328,6 @@ export const menuData = [
       },
       {
         id: "d5",
-        name: "Shahi Tukda",
-        slug: "shahi-tukda",
-        image: "/images/menu/desserts/shahi-tukda.png",
-        badge: "Mughlai Special",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: false,
-        popular: false,
-        rating: 4.7,
-        description: "Crispy fried bread slices soaked in saffron syrup topped with thick rabri and nuts."
-      },
-      {
-        id: "d6",
-        name: "Crispy Jalebi",
-        slug: "jalebi",
-        image: "/images/menu/desserts/jalebi.png",
-        badge: "Hot & Crispy",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: false,
-        popular: true,
-        rating: 4.6,
-        description: "Deep-fried spiral sweet soaked in saffron sugar syrup, best enjoyed hot."
-      },
-      {
-        id: "d7",
         name: "Kesar Pista Kulfi",
         slug: "kulfi",
         image: "/images/menu/desserts/kulfi.png",
@@ -534,19 +388,6 @@ export const menuData = [
         description: "Thick yogurt smoothie blended with sweet mango pulp and a touch of cardamom."
       },
       {
-        id: "v4",
-        name: "Masala Chaas",
-        slug: "masala-chaas",
-        image: "/images/menu/beverages/masala-chaas.png",
-        badge: "Digestive",
-        diet: "Veg",
-        spiceLevel: 1,
-        featured: false,
-        popular: false,
-        rating: 4.6,
-        description: "Traditional chilled spiced buttermilk blended with roasted cumin, mint, and cilantro."
-      },
-      {
         id: "v5",
         name: "Virgin Mojito",
         slug: "virgin-mojito",
@@ -558,32 +399,6 @@ export const menuData = [
         popular: true,
         rating: 4.8,
         description: "Refreshing mocktail of muddled fresh mint leaves, lime juice, sugar, and sparkling soda."
-      },
-      {
-        id: "v6",
-        name: "Royal Fruit Punch",
-        slug: "fruit-punch",
-        image: "/images/menu/beverages/fruit-punch.png",
-        badge: "Party Favorite",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: true,
-        popular: false,
-        rating: 4.7,
-        description: "Vibrant blend of seasonal tropical fruit juices topped with a splash of grenadine."
-      },
-      {
-        id: "v7",
-        name: "Masala Chai / Coffee",
-        slug: "tea-coffee",
-        image: "/images/menu/beverages/tea-coffee.png",
-        badge: "Hot Beverage",
-        diet: "Veg",
-        spiceLevel: 0,
-        featured: false,
-        popular: true,
-        rating: 4.8,
-        description: "Freshly brewed Indian hot tea infused with cardamom and ginger, or filter coffee."
       }
     ]
   }
