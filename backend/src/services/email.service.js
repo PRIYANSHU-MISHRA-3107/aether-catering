@@ -1,14 +1,6 @@
 import { Resend } from "resend";
 
-console.log(
-    "RESEND_API_KEY exists:",
-    Boolean(process.env.RESEND_API_KEY)
-  );
 const resend = new Resend(process.env.RESEND_API_KEY);
-console.log(
-    "Resend API key exists:",
-    Boolean(process.env.RESEND_API_KEY)
-  );
 
 export const sendBookingConfirmationEmail = async ({
   customerName,
