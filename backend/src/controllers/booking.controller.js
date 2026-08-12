@@ -9,13 +9,27 @@ import {
   getRecentBookingsService,
   getPendingBookingsService
 } from "../services/booking.service.js";
+import { sendBookingConfirmationEmail } from "../services/email.service.js";
 
 
 
 export const createBooking = async (req, res, next) => {
     try {
       const booking = await createBookingServices(req.body);
-  
+      try {
+        await sendBookingConfirmationEmail({
+          customerName: booking.customerName,
+          customerEmail: booking.email,
+          bookingId: booking._id,
+          eventType: booking.eventType,
+          eventDate: booking.eventDate,
+          guestCount: booking.guestCount,
+          venue: booking.venue,
+        });
+      } catch (emailError) {
+        console.error("Booking email failed:", emailError.message);
+      }
+
       res.status(201).json({
         success: true,
         message: "Booking created successfully",

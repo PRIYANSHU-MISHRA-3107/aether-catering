@@ -6,6 +6,7 @@ import { clerkMiddleware } from "@clerk/express";
 import HealthCheakRoute from "./routes/health.route.js";
 import contactRouter from "./routes/contact.route.js";
 import bookingRouter from "./routes/booking.route.js";
+import morgan from "morgan";    
 
 import errorHandler from "./middlewares/errorHandler.js";
 
@@ -24,7 +25,8 @@ app.use(
 
 // Request body parsing
 app.use(express.json({ limit: "10kb" }));
-
+//morgon
+app.use(morgan("dev"));
 // Clerk
 app.use(clerkMiddleware());
 
@@ -32,6 +34,7 @@ app.use(clerkMiddleware());
 app.use("/api/v1", HealthCheakRoute);
 app.use("/api/v1", contactRouter);
 app.use("/api/v1", bookingRouter);
+
 
 // 404 handler
 app.use((req, res) => {
