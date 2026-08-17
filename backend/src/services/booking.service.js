@@ -28,7 +28,7 @@ export const createBookingServices = async (bookingData)=>{
   }
 
 
-  const validPackages = ['silver', 'gold ']
+  const validPackages = ['silver', 'gold']
   if(!validPackages.includes(bookingData.packageId)){
     throw new AppError("Invalid package selected.", 400);
   }

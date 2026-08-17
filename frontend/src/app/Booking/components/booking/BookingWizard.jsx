@@ -25,7 +25,6 @@ import StepCustomize from "./StepCustomize";
 import StepReview from "./StepReview";
 import StepReserve from "./StepReserve";
 
-// Map step numbers (1–6) to Lucide icon components
 const STEP_ICONS = {
   1: Calendar,
   2: Users,
@@ -46,6 +45,7 @@ export default function BookingWizard() {
     availabilityStatus,
     pricingMetrics,
     nextDisabled,
+  
     setActiveCategory,
     updateField,
     handleSelectPackage,
@@ -54,45 +54,58 @@ export default function BookingWizard() {
     handleNextStep,
     handlePrevStep,
     jumpToStep,
+  
+    handleSubmitBooking,
+    isSubmitting,
+    bookingError,
+    bookingSuccess,
   } = useBookingWizard();
 
-  const currentStepInfo = WIZARD_STEPS[currentStep - 1] || WIZARD_STEPS[0];
-  
-  // Safe resolution: Map lookup with fallback icon to prevent undefined errors
-  const StepIcon = STEP_ICONS[currentStep] || currentStepInfo?.icon || HelpCircle;
-  
-  // Flag to check if we are on the final step
+  const currentStepInfo =
+    WIZARD_STEPS[currentStep - 1] || WIZARD_STEPS[0];
+
+  const StepIcon =
+    STEP_ICONS[currentStep] ||
+    currentStepInfo?.icon ||
+    HelpCircle;
+
   const isFinalStep = currentStep === WIZARD_STEPS.length;
 
   return (
     <section className="relative min-h-screen select-none bg-[#090909] py-16 text-white">
       <div className="mx-auto max-w-7xl px-6">
         {/* Step Progress Header */}
-        <StepNavigation currentStep={currentStep} onStepClick={jumpToStep} />
+        <StepNavigation
+          currentStep={currentStep}
+          onStepClick={jumpToStep}
+        />
 
         {/* Main Grid Layout */}
         <div className="grid items-start gap-8 lg:grid-cols-12">
+          {/* Main Content */}
           <div className="lg:col-span-8">
             <motion.div
               layout
               className="rounded-3xl border border-white/5 bg-[#111111] p-6 backdrop-blur-xl sm:p-8"
             >
-              {/* Active Step Title Bar */}
+              {/* Active Step Title */}
               <div className="mb-8 flex items-center gap-4 border-b border-white/5 pb-6">
                 <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-orange-500/20 bg-orange-500/10 text-orange-500">
                   <StepIcon size={24} />
                 </div>
+
                 <div>
                   <p className="text-xs font-bold uppercase tracking-wider text-orange-400">
                     Step {currentStep} of {WIZARD_STEPS.length}
                   </p>
+
                   <h3 className="text-2xl font-black text-white">
                     {currentStepInfo?.title || "Booking Step"}
                   </h3>
                 </div>
               </div>
 
-              {/* Dynamic View Switcher */}
+              {/* Dynamic Step */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentStep}
@@ -145,15 +158,19 @@ export default function BookingWizard() {
                   )}
 
                   {currentStep === 6 && (
-                    <StepReserve 
-                      bookingData={bookingData} 
-                      pricingMetrics={pricingMetrics} 
-                    />
+                   <StepReserve
+                   bookingData={bookingData}
+                   updateField={updateField}
+                   onSubmit={handleSubmitBooking}
+                   isSubmitting={isSubmitting}
+                   bookingError={bookingError}
+                   bookingSuccess={bookingSuccess}
+                 />
                   )}
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation Action Buttons */}
+              {/* Navigation */}
               <div className="mt-8 flex items-center justify-between border-t border-white/5 pt-6">
                 <button
                   type="button"
@@ -165,10 +182,10 @@ export default function BookingWizard() {
                       : "bg-white/5 text-white hover:bg-white/10 active:scale-95"
                   }`}
                 >
-                  <ArrowLeft size={14} /> Back
+                  <ArrowLeft size={14} />
+                  Back
                 </button>
 
-                {/* Hide the 'Continue' button on the final Reserve step to let StepReserve handle the final CTA */}
                 {!isFinalStep && (
                   <button
                     type="button"
@@ -183,6 +200,7 @@ export default function BookingWizard() {
                     {currentStep === WIZARD_STEPS.length - 1
                       ? "Proceed to Reserve"
                       : "Continue"}
+
                     <ArrowRight size={14} />
                   </button>
                 )}
@@ -190,7 +208,7 @@ export default function BookingWizard() {
             </motion.div>
           </div>
 
-          {/* Sticky Billing Summary Sidebar */}
+          {/* Billing Summary */}
           <div className="lg:col-span-4">
             <div className="sticky top-24">
               <BillingSummary

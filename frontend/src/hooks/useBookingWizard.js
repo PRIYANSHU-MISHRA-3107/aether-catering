@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from "react";
 import { WIZARD_STEPS } from "@/constants/bookingData";
 import { calculatePricing } from "@/utils/pricing";
 import { isStepNextDisabled } from "@/utils/bookingValidation";
+import { createApiClient } from "@/lib/api";
 
 export function useBookingWizard() {
   // ── Date bounds ─────────────────────────────────────────
@@ -17,20 +18,46 @@ export function useBookingWizard() {
   // ── State ───────────────────────────────────────────────
   const [currentStep, setCurrentStep] = useState(1);
   const [activeCategory, setActiveCategory] = useState("starters");
-  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+
+  const [isCheckingAvailability, setIsCheckingAvailability] =
+    useState(false);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [bookingError, setBookingError] = useState("");
+
+  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   const [bookingData, setBookingData] = useState({
     eventType: "Wedding",
     date: minDateStr,
     timeSlot: "Dinner (7 PM - 11 PM)",
     guests: 50,
+
+    // Customer contact details
+    customerName: "",
+    email: "",
+    phoneNumber: "",
+
+    // Venue
+    venue: "",
+
     dietaryPreference: "Mixed",
-    packageId: "gold-feast",
+
+    // Package
+    packageId: "gold",
+
+    // Menu
     starterDishes: ["s1", "s2"],
     mainCourseDishes: ["m1", "m2"],
     dessertDishes: ["d1"],
     beverageDishes: ["b1"],
-    extras: ["e1"],
+
+    // Add-ons
+    extras: [],
+
+    // Optional
+    specialInstructions: "",
   });
 
   const [availabilityStatus, setAvailabilityStatus] = useState({
@@ -39,7 +66,7 @@ export function useBookingWizard() {
     message: "Date & Time slot available!",
   });
 
-  // ── Derived data ────────────────────────────────────────
+  // ── Pricing ─────────────────────────────────────────────
   const pricingMetrics = useMemo(() => {
     return calculatePricing(bookingData);
   }, [bookingData]);
@@ -53,18 +80,32 @@ export function useBookingWizard() {
     );
   }, [currentStep, bookingData, availabilityStatus]);
 
-  // ── Actions ─────────────────────────────────────────────
+  // ── Update field ────────────────────────────────────────
   const updateField = useCallback((field, value) => {
-    setBookingData((prev) => ({ ...prev, [field]: value }));
+    setBookingData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+
+    // Clear previous submission error when user changes data
+    setBookingError("");
   }, []);
 
+  // ── Package selection ───────────────────────────────────
   const handleSelectPackage = useCallback((pkg) => {
-    setBookingData((prev) => ({ ...prev, packageId: pkg.id }));
+    setBookingData((prev) => ({
+      ...prev,
+      packageId: pkg.id,
+    }));
+
+    setBookingError("");
   }, []);
 
+  // ── Dish selection ──────────────────────────────────────
   const toggleDishSelection = useCallback((categoryKey, dishId) => {
     setBookingData((prev) => {
-      const currentList = prev[categoryKey];
+      const currentList = prev[categoryKey] || [];
+
       const isSelected = currentList.includes(dishId);
 
       return {
@@ -74,11 +115,15 @@ export function useBookingWizard() {
           : [...currentList, dishId],
       };
     });
+
+    setBookingError("");
   }, []);
 
+  // ── Extra addon selection ───────────────────────────────
   const toggleExtraAddon = useCallback((addonId) => {
     setBookingData((prev) => {
-      const currentExtras = prev.extras;
+      const currentExtras = prev.extras || [];
+
       const isSelected = currentExtras.includes(addonId);
 
       return {
@@ -88,10 +133,111 @@ export function useBookingWizard() {
           : [...currentExtras, addonId],
       };
     });
+
+    setBookingError("");
   }, []);
 
+  // ── Submit booking ──────────────────────────────────────
+  const handleSubmitBooking = useCallback(async () => {
+    setBookingError("");
+    setBookingSuccess(false);
+
+    // Frontend safety validation
+    if (!bookingData.customerName.trim()) {
+      setBookingError("Please enter your full name.");
+      return;
+    }
+
+    if (!bookingData.email.trim()) {
+      setBookingError("Please enter your email address.");
+      return;
+    }
+
+    if (!bookingData.phoneNumber.trim()) {
+      setBookingError("Please enter your phone number.");
+      return;
+    }
+
+    if (!bookingData.venue.trim()) {
+      setBookingError("Please enter the event venue.");
+      return;
+    }
+
+    if (!bookingData.date) {
+      setBookingError("Please select an event date.");
+      return;
+    }
+
+    if (bookingData.guests < 10) {
+      setBookingError("Minimum 10 guests are required.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const api = createApiClient();
+
+      // Convert frontend state into backend API format
+      const payload = {
+        customerName: bookingData.customerName.trim(),
+
+        email: bookingData.email.trim(),
+
+        phoneNumber: bookingData.phoneNumber.trim(),
+
+        eventType: bookingData.eventType,
+
+        eventDate: bookingData.date,
+
+        timeSlot: bookingData.timeSlot,
+
+        guestCount: Number(bookingData.guests),
+
+        venue: bookingData.venue.trim(),
+
+        dietaryPreference: bookingData.dietaryPreference,
+
+        packageId: bookingData.packageId,
+
+        starterDishes: bookingData.starterDishes || [],
+
+        mainCourseDishes: bookingData.mainCourseDishes || [],
+
+        dessertDishes: bookingData.dessertDishes || [],
+
+        beverageDishes: bookingData.beverageDishes || [],
+
+        extras: bookingData.extras || [],
+
+        specialInstructions:
+          bookingData.specialInstructions?.trim() || undefined,
+      };
+
+      console.log("Submitting booking:", payload);
+
+      const response = await api.post("/booking", payload);
+
+      console.log("Booking created:", response);
+
+      setBookingSuccess(true);
+    } catch (error) {
+      console.error("Booking submission failed:", error);
+
+      setBookingError(
+        error?.message ||
+          "Unable to submit your reservation. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [bookingData]);
+
+  // ── Navigation ──────────────────────────────────────────
   const handleNextStep = useCallback(() => {
-    setCurrentStep((prev) => Math.min(prev + 1, WIZARD_STEPS.length));
+    setCurrentStep((prev) =>
+      Math.min(prev + 1, WIZARD_STEPS.length)
+    );
   }, []);
 
   const handlePrevStep = useCallback(() => {
@@ -99,7 +245,9 @@ export function useBookingWizard() {
   }, []);
 
   const jumpToStep = useCallback((stepId) => {
-    setCurrentStep((prev) => (stepId <= prev ? stepId : prev));
+    setCurrentStep((prev) =>
+      stepId <= prev ? stepId : prev
+    );
   }, []);
 
   // ── Return ──────────────────────────────────────────────
@@ -112,7 +260,7 @@ export function useBookingWizard() {
     handlePrevStep,
     jumpToStep,
 
-    // Data
+    // Booking data
     bookingData,
     minDateStr,
     maxDateStr,
@@ -123,7 +271,13 @@ export function useBookingWizard() {
     availabilityStatus,
     setAvailabilityStatus,
 
-    // Selections
+    // Booking submission
+    handleSubmitBooking,
+    isSubmitting,
+    bookingError,
+    bookingSuccess,
+
+    // Field updates
     updateField,
     handleSelectPackage,
     toggleDishSelection,

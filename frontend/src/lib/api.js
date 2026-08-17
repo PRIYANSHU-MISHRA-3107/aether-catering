@@ -1,13 +1,23 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const createApiClient = (token) => {
+  const getHeaders = () => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    return headers;
+  };
+
   return {
     get: async (endpoint) => {
       const response = await fetch(`${API_URL}${endpoint}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+        method: "GET",
+        headers: getHeaders(),
       });
 
       const data = await response.json();
@@ -22,10 +32,7 @@ export const createApiClient = (token) => {
     post: async (endpoint, body) => {
       const response = await fetch(`${API_URL}${endpoint}`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+        headers: getHeaders(),
         body: JSON.stringify(body),
       });
 
@@ -41,10 +48,7 @@ export const createApiClient = (token) => {
     patch: async (endpoint, body) => {
       const response = await fetch(`${API_URL}${endpoint}`, {
         method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+        headers: getHeaders(),
         body: JSON.stringify(body),
       });
 
@@ -60,10 +64,7 @@ export const createApiClient = (token) => {
     delete: async (endpoint) => {
       const response = await fetch(`${API_URL}${endpoint}`, {
         method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+        headers: getHeaders(),
       });
 
       const data = await response.json();
