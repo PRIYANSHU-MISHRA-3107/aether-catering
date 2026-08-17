@@ -2,41 +2,74 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { clerkMiddleware } from "@clerk/express";
+import morgan from "morgan";
 
 import HealthCheakRoute from "./routes/health.route.js";
 import contactRouter from "./routes/contact.route.js";
 import bookingRouter from "./routes/booking.route.js";
-import morgan from "morgan";    
 
 import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 
-// Security headers
+// ─────────────────────────────────────────────
+// Security
+// ─────────────────────────────────────────────
 app.use(helmet());
 
+// ─────────────────────────────────────────────
 // CORS
+// ─────────────────────────────────────────────
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://aether-catering.vercel.app",
+];
+
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: (origin, callback) => {
+      // Allow requests without an Origin header
+      // such as Postman, curl, server-to-server requests, etc.
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );
 
-// Request body parsing
+// ─────────────────────────────────────────────
+// Body Parsing
+// ─────────────────────────────────────────────
 app.use(express.json({ limit: "10kb" }));
-//morgon
+
+// ─────────────────────────────────────────────
+// Logging
+// ─────────────────────────────────────────────
 app.use(morgan("dev"));
+
+// ─────────────────────────────────────────────
 // Clerk
+// ─────────────────────────────────────────────
 app.use(clerkMiddleware());
 
+// ─────────────────────────────────────────────
 // Routes
+// ─────────────────────────────────────────────
 app.use("/api/v1", HealthCheakRoute);
 app.use("/api/v1", contactRouter);
 app.use("/api/v1", bookingRouter);
 
-
-// 404 handler
+// ─────────────────────────────────────────────
+// 404 Handler
+// ─────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -44,7 +77,9 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
+// ─────────────────────────────────────────────
+// Global Error Handler
+// ─────────────────────────────────────────────
 app.use(errorHandler);
 
 export default app;
