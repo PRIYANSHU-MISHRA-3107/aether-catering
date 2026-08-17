@@ -23,14 +23,14 @@ app.use(helmet());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://aether-catering.vercel.app",
-];
+  process.env.FRONTEND_URL,
+].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests without an Origin header
-      // such as Postman, curl, server-to-server requests, etc.
+      // such as Postman/server-to-server requests.
       if (!origin) {
         return callback(null, true);
       }
