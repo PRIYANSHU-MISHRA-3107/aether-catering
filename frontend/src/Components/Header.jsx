@@ -85,9 +85,16 @@ const Header = () => {
                 onClick={closeMobileMenu}
                 className="animate-pulse-scale text-xl font-black tracking-[0.2em] text-white uppercase bg-gradient-to-r from-white via-neutral-200 to-neutral-400 bg-clip-text text-transparent select-none"
               >
-                aether-catering
+                <img
+                  src="/images/logo.png"
+                  alt="Aether Catering Logo"
+                  className="h-20 w-auto object-contain"
+                  style={{maxWidth: "400px"}}
+                />
+          
               </Link>
             </div>
+      
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-10">
