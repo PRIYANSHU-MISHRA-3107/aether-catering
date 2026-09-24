@@ -1,6 +1,5 @@
 import CuisineShowcase from '@/Components/CuisineShowcase'
 import Experiences from '@/Components/Experiences'
-import CateringPackages from '@/Components/experiences/CateringPackage'
 import CuisineSection from '@/Components/experiences/CuisineSection'
 import FeaturedEvents from '@/Components/experiences/FeaturedEvents'
 import FinalCTA from '@/Components/experiences/FinalCTA'
@@ -24,7 +23,6 @@ const page = () => {
       <CuisineSection/>
       <TestimonialsSection/>
       <OurStory/>
-      <CateringPackages/>
       <FinalCTA/>
       <Footer/>
     </div>
