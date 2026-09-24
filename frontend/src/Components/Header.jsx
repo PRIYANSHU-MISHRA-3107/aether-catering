@@ -76,8 +76,8 @@ const Header = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14">
-
+          {/* Increase gap-x-24 for a wider separation between logo and desktop actions */}
+          <div className="flex items-center justify-between h-14 md:gap-x-34">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link
@@ -89,12 +89,10 @@ const Header = () => {
                   src="/images/logo.png"
                   alt="Aether Catering Logo"
                   className="h-20 w-auto object-contain"
-                  style={{maxWidth: "400px"}}
+                  style={{ maxWidth: "400px" }}
                 />
-          
               </Link>
             </div>
-      
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-10">
@@ -105,7 +103,6 @@ const Header = () => {
                   className="text-[13px] font-medium uppercase tracking-[0.15em] text-neutral-400 hover:text-white transition-colors duration-300 relative py-2 block group"
                 >
                   {link.name}
-
                   <span className="absolute bottom-0 left-1/2 w-0 h-[1px] bg-indigo-500 transition-all duration-300 group-hover:w-full group-hover:left-0" />
                 </Link>
               ))}
@@ -118,7 +115,6 @@ const Header = () => {
                 <div className="w-28 h-10 rounded-full bg-white/5 animate-pulse" />
               ) : isSignedIn ? (
                 <div className="flex items-center gap-2">
-
                   {/* User */}
                   <Link
                     href="/profile"
@@ -128,7 +124,6 @@ const Header = () => {
                       size={14}
                       className="text-indigo-400"
                     />
-
                     {user?.firstName || "Account"}
                   </Link>
 
@@ -142,7 +137,6 @@ const Header = () => {
                       <LogOut size={15} />
                     </button>
                   </SignOutButton>
-
                 </div>
               ) : (
                 <SignInButton mode="modal">
@@ -174,7 +168,6 @@ const Header = () => {
                   />
                 </span>
               </Link>
-
             </div>
 
             {/* Mobile Menu Button */}
@@ -269,7 +262,6 @@ const Header = () => {
               >
                 Book Now
               </Link>
-
             </div>
           </div>
         </div>

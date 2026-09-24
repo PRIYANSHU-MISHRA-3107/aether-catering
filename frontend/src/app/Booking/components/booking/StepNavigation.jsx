@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 
 export default function StepNavigation({ currentStep, onStepClick }) {
   return (
-    <div className="mb-10 w-full overflow-x-auto pb-4">
+    <div className="mt-6 mb-10 w-full overflow-x-auto pb-4 pt-2">
       <div className="flex items-center justify-between min-w-[600px]">
         {WIZARD_STEPS.map((step) => {
           const isCompleted = currentStep > step.id;
